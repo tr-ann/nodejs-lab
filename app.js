@@ -1,41 +1,72 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const Koa = require('koa')
+const Router = require('koa-router')
+const app = new Koa()
+const router = new Router()
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const sequelize = require('./repositories/connect');
 
-var app = express();
+const views = require('koa-views')
+const co = require('co')
+const convert = require('koa-convert')
+const json = require('koa-json')
+const onerror = require('koa-onerror')
+const bodyparser = require('koa-bodyparser')
+const logger = require('koa-logger')
+const debug = require('debug')('koa2:server')
+const path = require('path')
 
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+const config = require('./config')
+const routes = require('./routes')
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+const port = process.env.PORT || config.port
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
-});
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+onerror(app)
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
+// middlewares
+app.use(bodyparser())
+  .use(json())
+  .use(logger())
+  .use(require('koa-static')(__dirname + '/public'))
+  .use(views(path.join(__dirname, '/views'), {
+    options: {settings: {views: path.join(__dirname, 'views')}},
+    map: {'njk': 'nunjucks'},
+    extension: 'njk'
+  }))
+  .use(router.routes())
+  .use(router.allowedMethods())
 
-module.exports = app;
+// logger
+app.use(async (ctx, next) => {
+  const start = new Date()
+  await next()
+  const ms = new Date() - start
+  console.log(`${ctx.method} ${ctx.url} - $ms`)
+})
+
+router.get('/', async (ctx, next) => {
+  // ctx.body = 'Hello World'
+  ctx.state = {
+    title: 'Koa2'
+  }
+  await ctx.render('index', ctx.state)
+})
+
+routes(router)
+app.on('error', function(err, ctx) {
+  console.log(err)
+  logger.error('server error', err, ctx)
+})
+
+module.exports = app.listen(config.port, () => {
+  console.log(`Listening on http://localhost:${config.port}`)
+})

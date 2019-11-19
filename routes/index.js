@@ -1,9 +1,9 @@
-var express = require('express');
-var router = express.Router();
+module.exports =  (router) => {
+  router.get('/welcome', async function (ctx, next) {
+    ctx.state = {
+      title: 'koa2 title'
+    };
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
+    await ctx.render('welcome', {title: ctx.state});
+  })
+}
