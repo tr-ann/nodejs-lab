@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec babel-node ./app.js"
+    "start": "nodemon --exec babel-node ./src/app.js"
   },
   "dependencies": {
     "@babel/core": "^7.7.5",
@@ -23,15 +23,25 @@
     "koa-router": "^7.2.1",
     "koa-session": "^5.12.3",
     "koa-static": "^3.0.0",
-    "koa-views": "^6.0.2",
     "mysql2": "^2.0.0",
     "nodemon": "^2.0.1",
-    "nunjucks": "^3.2.0",
     "sequelize": "^5.21.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-eslint": "7.1.1",
     "eslint": "3.18.0"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tr-ann/nodejs-lab.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tr-ann/nodejs-lab/issues"
+  },
+  "homepage": "https://github.com/tr-ann/nodejs-lab#readme",
+  "description": ""
 }
