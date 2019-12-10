@@ -1,33 +1,49 @@
-module.exports = (sequelize, sequelize) => {
-    var Post = sequelize.define('post', {
-        id: {
-            type: sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false
-        },
+import { Model } from 'sequelize'
+
+export default (sequelize, DataType) => {
+    
+    class Post extends Model {}
+    
+    Post.init({
         date: {
-            type: sequelize.DATE,
+            type: DataType.DATE,
             allowNull: false
         },
         description: {
-            type: sequelize.STRING,
+            type: DataType.STRING,
             allowNull: false
         },
         image: {
-            type: sequelize.TEXT,
+            type: DataType.STRING,
             allowNull: true
-        },
-        isEdited: {
-            type: sequelize.BOOLEAN
-        },
-        isDeleted: {
-            type: sequelize.BOOLEAN
-        },
-    }, {});
+        }
+    }, {
+        sequelize,
+        underscope: true,
+        timestamps: true,
+        deletedAt: false,
+        modelName: 'post',
+
+        // freezeTableName: 'posts', 
+
+        name: {
+            simple: 'post',
+            plural: 'posts',
+        }
+    })
 
     Post.associate = (models) => {
-        Post.belongsTo(models.User, { foreignKey: 'userId', as: 'user' });
-    };
-    return Post;
+        Post.belongsTo(models.user, {
+            onDelete: 'cascade',
+            onUpdate: 'cascade',
+         })
+
+        Post.belongsToMany(models.tag, {
+            through: models.post_tag,
+            onDelete: 'cascade',
+            onUpdate: 'cascade',
+        })
+    }
+
+    return Post
 }

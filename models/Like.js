@@ -1,17 +1,25 @@
-'use strict'
+import { Model } from 'sequelize'
 
-module.exports = (sequelize, DataType) => {
-    var Like = sequelize.define('like', {
-        id: {
-            type: sequelize.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-            allowNull: false
+export default (sequelize, DataType) => {
+
+    class Like extends Model {}
+    
+    Like.init({}, {
+        sequelize,
+        underscope: true,
+        timestamps:false,
+        deletedAt: false,
+        modelName: 'like',
+
+        // freezeTableName: 'likes', 
+
+        name: {
+            simple: 'like',
+            plural: 'likes',
         }
-    }, {});
-    Like.associate = (models) => {
-        Like.belongsTo(models.User, { foreignKey: 'userId' });
-        Like.belongsTo(models.Post, { foreignKey: 'postId' });
-    };
+    })
+
+    Like.associate = (models) => {}
+    
     return Like;
 }

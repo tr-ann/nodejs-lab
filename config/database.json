@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "username": "root",
+        "password": "root",
+        "operatorsAliases": false,
+        "database": "insta_db",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "timestamps": false
+    },
+    "test": {
+        "username": "root",
+        "password": "root",
+        "operatorsAliases": false,
+        "database": "insta_test_db",
+        "host": "127.0.0.1",
+        "dialect": "mysql",
+        "timestamps": false
+    }
+}

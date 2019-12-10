@@ -1,16 +1,36 @@
-module.exports = (sequelize, DataTypes) => {
-    var Role = sequelize.define('role', {
-        id: {
-            allowNull: false,
-            primaryKey: true,
-            autoIncrement: true,
-            type: sequelize.INTEGER,
-        },
+import { Model } from 'sequelize'
+
+export default (sequelize, DataTypes) => {
+
+    class Role extends Model {} 
+
+    Role.init({
         name: {
             allowNull: false,
-            type: sequelize.STRING(100),
+            type: Sequelize.STRING(100),
         },
-    }, {});
-    Role.associate = function (models) { };
-    return Role;
+    }, {
+        sequelize,
+        underscope: true,
+        timestamps:false,
+        deletedAt: false,
+        modelName: 'role',
+
+        // freezeTableName: 'roles', 
+
+        name: {
+            simple: 'role',
+            plural: 'roles',
+        }
+    })
+
+    Role.associate = function (models) { 
+        Role.belongsToMany(models.user, {
+            through: models.user_role,
+            onDelete: 'cascade',
+            onUpdate: 'cascade',
+        })
+    }
+
+    return Role
 }
