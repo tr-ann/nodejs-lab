@@ -1,96 +1,93 @@
-import UserService from '../services/user'
-const userService = new UserService()
+import UserService from '../services/UserService'
+import ResponseFormat from '../classes/ResponseFormat'
 
-const ResponseFormat = require('../core').ResponseFormat;
+class UserController {
 
-export default class UserController {
+  async create(ctx, next) {
+    const user = await UserService.create({
+      login: ctx.request.body.login,
+      firstName: ctx.request.body.firstName,
+      lastName: ctx.request.body.lastName,
+      password: ctx.request.body.password
+    });
 
-    async create(req, res) {
-        try {
-            const user = await userService.create({
-                    login: req.body.username,
-                    firstName: req.body.firstName,
-                    lastName: req.body.lastName,
-                    password: req.body.password
-                });
-            // не отдавать пароль назад
-            return res.status(201)
-                .json(
-                    ResponseFormat.build(
-                        user, 
-                        "User Create Successfully", 
-                        201, 
-                        "success"
-                        )
-                    );
-        } catch (error) {
-            return res.status(error.status).json(error);
-        }
-    }
-
-    async list(req, res) {
-        try {
-            let users = await userService.all()
-            
-            return res.status(200).json(ResponseFormat.build(
-                users,
-                "User Information Reterive successfully",
-                200,
-                "success"
-            ))
-        } catch(error) {
-            return res.status(error.status).json(error)
-        }
-    }
-
-    async readById(req, res) {
-        try {
-            let user = userService.findById(req.body.userId)
-            return res.status(200).json(
-                ResponseFormat.build(
-                    user,
-                    "User information reterieve successfully",
-                    200,
-                    "success"
-                )
-            )
-        } catch (error) {
-            return res.status(error.status).json(error)
-        }
-    }
+    //user.addRole(2);
     
-    async update(req, res) {
-        try {
-            let user = await userService.update({
-                login: req.body.username,
-                password: req.body.password,
-            })
-            return res.status(200).json(
-                ResponseFormat.build(
-                    usr,
-                    "user Update successfully",
-                    200,
-                    "success"
-                )
-            )
-        } catch(error) {
-             res.status(error.status).json(error)
-        }
-    }
+    ctx.status = 201;
+    ctx.body = ResponseFormat.build(
+      user, 
+      "User creates successfully", 
+      201, 
+      "success"
+    );
+
+    return ctx;
+  }
+
+  async list(ctx, next) {
+    let users = await UserService.list();
     
-    async destroy (req, res) {
-        try {
-            await userService.delete(req.params.userId)
-            return res.status(200).json(
-                ResponseFormat.build(
-                    {},
-                    "user deleted successfully",
-                    200,
-                    "success"
-                )
-            )
-        } catch (error) { 
-            res.status(error.status).json(error)
-        }
-    }
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      users, 
+      "Users read successfully", 
+      200, 
+      "success"
+    );
+
+    return ctx;
+  }
+
+  async readById(ctx, next) {
+    let user = await UserService.readById(ctx.params.id);
+
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      user,
+      "User read successfully",
+      200,
+      "success"
+    );
+
+    return ctx;
+  }
+  
+  async update(ctx, next) {
+
+    let user = await UserService.update(ctx.params.id, {
+      lastName: ctx.request.body.lastName,
+      firstName: ctx.request.body.firstName,
+    });
+
+    console.log(user);
+
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      user,
+      "user Update successfully",
+      200,
+      "success"
+    );
+
+    return ctx;
+  }
+  
+  async destroy (ctx, next) {
+    await UserService.destroy(ctx.params.id)
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      {},
+      "User deleted successfully",
+      200,
+      "success"
+    )
+
+    return ctx;
+  }
+
+  async sendDeleteRequest(ctx, next) {
+    
+  }
 }
+
+export default new UserController();

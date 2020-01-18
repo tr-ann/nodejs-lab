@@ -2,7 +2,7 @@ import { Model } from 'sequelize'
 
 export default (sequelize, DataTypes) => {
 
-    class Tag extends Model {}
+    class Tag extends Model {};
 
     Tag.init({
         name: {
@@ -11,26 +11,28 @@ export default (sequelize, DataTypes) => {
         },
     }, {
         sequelize,
-        underscope: true,
-        timestamps:false,
+        timestamps: false,
         deletedAt: false,
+        
         modelName: 'tag',
 
-        // freezeTableName: 'tags', 
+        // tableName: 'tags', 
 
         name: {
             simple: 'tag',
             plural: 'tags',
         }
-    })
+    });
 
     Tag.associate = function (models) { 
         Tag.belongsToMany(models.post, {
             through: models.post_tag,
             onDelete: 'cascade',
             onUpdate: 'cascade',
+            foreignKey: 'tagId',
+            as: 'posts'
         })
     }
 
-    return Tag
+    return Tag;
 }

@@ -1,25 +1,33 @@
 import { Model } from 'sequelize'
 
-export default (sequelize, DataType) => {
+export default (sequelize, DataTypes) => {
 
-    class Like extends Model {}
-    
-    Like.init({}, {
-        sequelize,
-        underscope: true,
-        timestamps:false,
-        deletedAt: false,
-        modelName: 'like',
+	class Like extends Model {};
 
-        // freezeTableName: 'likes', 
+	Like.init({
+		postId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			field: 'post_id'
+		},
+		userId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			field: 'user_id'
+		}
+	}, {
+		sequelize,
+		timestamps: false,
+		deletedAt: false,
 
-        name: {
-            simple: 'like',
-            plural: 'likes',
-        }
-    })
+		modelName: 'like',
+		tableName: 'likes', 
 
-    Like.associate = (models) => {}
-    
-    return Like;
+		name: {
+			simple: 'like',
+			plural: 'likes',
+		}
+	});
+	
+	return Like;
 }

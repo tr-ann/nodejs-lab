@@ -1,9 +1,11 @@
 import initKoa from './koa'
 import initRoutes from './routes'
-import initMiddleware from './middleware'
+import initErrorHandler from '../middleware/error'
+import passport from '../middleware/passport'
 
 export default (app) => {
+    initErrorHandler(app)
     initKoa(app)
+    //app.use(passport.initialize())
     initRoutes(app)
-    initMiddleware(app)
 }

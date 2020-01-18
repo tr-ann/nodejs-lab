@@ -1,24 +1,29 @@
 import { Model } from 'sequelize'
 
 export default (sequelize, DataTypes) => {
-    
-    class UserRole extends Model {}
-    
-    UserRole.init({}, {
-        sequelize,
-        underscope: true,
-        timestamp: false,
-        deletedAt: false,
+  class UserRole extends Model {};
 
-        modelName: 'user_role',
-        freezeTableName: 'users_roles', 
-        name: {
-            simple: 'userRole',
-            plural: 'UserRoles',
-        }
-    })
+  UserRole.init({
+    userId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      field: 'user_id'
+    },
+    roleId: {
+      allowNull: false,
+      type: DataTypes.INTEGER,
+      field: 'role_id'
+    }
+  }, {
+
+    sequelize,
+    timestamps: false,
+    deletedAt: false,
     
-    UserRole.associate = function (models) {}
-    
-    return UserRole
+    modelName: 'user_role',
+    tableName: 'users_roles',    
+
+  });
+  
+  return UserRole;
 }

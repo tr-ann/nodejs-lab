@@ -1,34 +1,47 @@
 import RoleRepository from '../repositories/RoleRepository'
+import NotFound from '../classes/errors/not-found'
 
-export default class RoleService {
+class RoleService {
 
-    _repository = new RoleRepository()
+  async list() {
+    return await RoleRepository.readAll();
+  }
 
-    async list() {
-        return await this._repository.readAll()
+  async create(role) {
+    return await RoleRepository.create(role);
+  }
+
+  async readById(id) {
+    let role = await RoleRepository.readById(id);
+
+    if (!role) {
+      throw new NotFound(`Role not found`);
+    }
+    
+    return role;
+  }
+
+  async update(id, role) {
+    return await RoleRepository.update(id, role);
+  }
+
+  async destroy(id) {
+    let role = await RoleRepository.readById(id);
+
+    if (!role) {
+      throw new NotFound(`Role not found`);
     }
 
-    async create(role) {
-        return await this._repository.create(role)
-    }
+    await RoleRepository.delete(role);
+  }
 
-    async findById(id) {
-        let role = await this._repository.readById(id)
-        if (!role) {
-            throw new NotFound(`${objectName} not found`)
-        }
-        return role
-    }
+  async getAll(options) {
+    return await RoleRepository.getAll(options);
+  }
 
-    async update(role) {
-        return await this._repository.update(role)
-    }
-
-    async destroy(id) {
-        let role = await this._repository.readById(id)
-        if (!role) {
-            throw new NotFound(`${objectName} not found`)
-        }
-        await this._repository.destroy(role)
-    }
+  async get(options) {
+    return await RoleRepository.get(options);
+  }
 };
+
+export default new RoleService();

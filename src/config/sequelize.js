@@ -10,7 +10,15 @@ const sequelize = new Sequelize(config.database, config.username, config.passwor
 })
 
 async function connect() {
-    await sequelize.authenticate()
+    try {
+        await sequelize.authenticate()
+        
+    } catch (err) {
+        console.error('Unable to connect to the database:', err);
+    }
+
+    console.log('Connection has been established successfully.')
+
     await sequelize.sync()
 }
 

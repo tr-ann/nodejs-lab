@@ -1,38 +1,72 @@
 import UserRepository from '../repositories/UserRepository'
-import bcrypt from 'bcrypt'
+import NotFound from '../classes/errors/not-found'
+import Hash from '../classes/hash'
 
-export default class UserService {
+class UserService {
 
-    _repository = new UserRepository()
+  async create(user) {
+    let newUser = await UserRepository.create(user);
 
-    async list() {
-        return await this._repository.readAll()
+    // exclude option???
+
+    delete newUser.dataValues.password;
+    delete newUser._previousDataValues.password;
+
+    return newUser;
+  }
+
+  async list() {
+    return await UserRepository.readAll();
+  }
+
+  async readById(id) {
+
+    let user = await UserRepository.readById(id);
+
+    if (!user) {
+      throw new NotFound('User not found');
     }
 
-    async create(user) {
-        user.password = await bcrypt.hash(user.password)
-        let newUser = await this._repository.create(user)
-        delete newUser.password
-        return newUser
-    }
+    delete user.dataValues.password;
+    delete user._previousDataValues.password;
+    
+    return user;
+  }
 
-    async findById(id) {
-        let user = await this._repository.readById(id)
-        if (!user) {
-            throw new NotFound(`${objectName} not found`)
-        }
-        return user
-    }
+  async update(id, user) {
 
-    async update(user) {
-        return await this._repository.update(user)
-    }
+    let oldUser = await UserRepository.readById(id);
 
-    async destroy(id) {
-        let user = await this._repository.readById(id)
-        if (!user) {
-            throw new NotFound(`${objectName} not found`)
-        }
-        await this._repository.destroy(user)
+    if (!oldUser) {
+      throw new NotFound('User not found');
     }
-};
+    
+    if(user.password)
+      user.password = Hash.get(user.password);
+
+    await UserRepository.update(id, user);
+
+    return await UserRepository.readById(id);
+  }
+
+  async destroy(id) {
+
+    let user = await UserRepository.readById(id);
+    
+    if (!user) {
+      throw new NotFound('User not found');
+    }
+      
+    return await UserRepository.destroy(id);
+  }
+
+  async get(options) {        
+    return await UserRepository.get(options);
+  }
+
+  async getAll(options) {        
+    return await UserRepository.getAll(options);
+  }
+}
+
+export default new UserService();

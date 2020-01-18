@@ -1,34 +1,43 @@
 import PostRepository from '../repositories/PostRepository'
+import NotFound from '../classes/errors/not-found'
 
-export default class PostService {
+class PostService {
 
-    _repository = new PostRepository()
+  async list() {
+    return await PostRepository.readAll();
+  }
 
-    async list() {
-        return await this._repository.readAll()
+  async create(post) {
+    return await PostRepository.create(post);
+  }
+
+  async readById(id) {
+    let post = await PostRepository.readById(id);
+
+    if (!post) {
+      throw new NotFound(`Post not found`);
     }
+    
+    return post;
+  }
 
-    async create(post) {
-        return await this._repository.create(post)
-    }
+  async update(id, post) {
+    await PostRepository.update(id, post);
 
-    async findById(id) {
-        let post = await this._repository.readById(id)
-        if (!post) {
-            throw new NotFound(`${objectName} not found`)
-        }
-        return post
-    }
+    return await PostRepository.readById(id);
+  }
 
-    async update(id, post) {
-        return await this._repository.update(id, post)
-    }
+  async destroy(id) {
+    await PostRepository.destroy(id);
+  }
 
-    async destroy(id) {
-        let post = await this._repository.readById(id)
-        if (!post) {
-            throw new NotFound(`${objectName} not found`)
-        }
-        await this._repository.delete(post)
-    }
+  async getAll(options) {
+    return await PostRepository.getAll(options);
+  }
+
+  async get(options) {
+    return await PostRepository.get(options);
+  }
 };
+
+export default new PostService();

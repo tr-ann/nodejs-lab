@@ -2,23 +2,32 @@ import { Model } from 'sequelize'
 
 export default (sequelize, DataTypes) => {
 
-    class PostTag extends Model {}
+	class PostTag extends Model {};
 
-    PostTag.init({}, {
-        sequelize,
-        underscope: true,
-        timestamp: false,
-        deletedAt: false,
+	PostTag.init({
+		postId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			field: 'post_id'
+		},
+		tagId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			field: 'tag_id'
+		}
+	}, {
+		sequelize,
+		timestamps: false,
+		deletedAt: false,
 
-        modelName: 'post_tag',
-        freezeTableName: 'posts_tags', 
-        name: {
-            simple: 'postTag',
-            plural: 'postsTags',
-        }
-    })
+		modelName: 'post_tag',
+		tableName: 'posts_tags', 
 
-    PostTag.associate = function (models) {}
-    
-    return PostTag
+		name: {
+			simple: 'postTag',
+			plural: 'postsTags',
+		}
+	});
+	
+	return PostTag;
 }
