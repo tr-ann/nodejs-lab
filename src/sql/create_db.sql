@@ -86,6 +86,11 @@ CREATE TABLE `posts_tags` (
 	FOREIGN KEY (`tag_id`) REFERENCES `tags`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
+CREATE TABLE `refresh_tokens` (
+	`id`		INTEGER auto_increment PRIMARY KEY,
+	`token`	VARCHAR(300) NOT NULL UNIQUE
+);
+
 INSERT INTO `roles` (`name`) VALUES
 ("authorized user"),
 ("admin");

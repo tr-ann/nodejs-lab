@@ -1,0 +1,51 @@
+GET http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOltdLCJpYXQiOjE1Nzk0NjI0NzEsImV4cCI6MTU3OTQ2MzA3MX0.rEIUNcIE9kv5hJrHqsQzhRniTvWme2kw0frjL_wFzD0
+
+###
+
+GET http://localhost:3000/users
+
+###
+
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+  "login": "user",
+  "password": "user"
+}
+
+###
+
+POST http://localhost:3000/token
+Content-Type: application/json
+
+{
+  "refreshToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOltdLCJpYXQiOjE1Nzk0NjI0NzEsImV4cCI6MTU4MDMyNjQ3MX0.7c_jZSahXfwssY1nQeR7DTQCfB5mi_O0xO6tp2NznFk"
+}
+
+###
+
+POST http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJ1c2VyIiwicm9sZXMiOltdLCJpYXQiOjE1NzkzNzUzNDMsImV4cCI6MTU3OTM3NTk0M30.4MMDBOPbc1pGT881ABXM30euzKuEli9iZ7gAxP1_C38
+
+{
+	"description": "firstPost",
+  "userId": 3,
+	"tags": [
+		"best",
+		"hello"
+	]
+}
+
+###
+
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{
+  "login": "user",
+  "password": "user",
+  "firstName": "ann",
+  "lastName": "trepachko"
+}

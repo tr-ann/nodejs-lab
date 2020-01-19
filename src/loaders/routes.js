@@ -1,12 +1,14 @@
-import authenticateRouter from '../routers/AuthenticateRouter'
+import authenticationRouter from '../routers/AuthenticateRouter'
 import usersRouter from '../routers/UserRouter'
 import postsRouter from '../routers/PostRouter'
-//import AuthenticateController from '../controller/AuthenticateController'
+import Authorization from '../middleware/authentication'
 
 export default (app) => {
 	app
-		//.use(authenticateRouter.routes())
-		//.use(AuthenticateController.isAuthenticated)
+		.use(authenticationRouter.routes())
+
+		.use(Authorization.authenticateToken)
+
 		.use(usersRouter.routes())
 		.use(postsRouter.routes())
 }

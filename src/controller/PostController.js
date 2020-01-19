@@ -1,7 +1,6 @@
 import UserService from '../services/UserService'
 import PostService from '../services/PostService'
 
-import TagService from '../services/TagService'
 import ResponseFormat from '../classes/ResponseFormat'
 
 class PostController {
@@ -38,17 +37,17 @@ class PostController {
   }
 
   async list(ctx, next) {
-        let posts = await PostService.list();
-        
-        ctx.status = 200;
-        ctx.body = ResponseFormat.build(
-          posts, 
-          "Posts read successfully", 
-          200, 
-          "success"
-        );
+    let posts = await PostService.list();
+    
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      posts, 
+      "Posts read successfully", 
+      200, 
+      "success"
+    );
 
-        return ctx;
+    return ctx;
   }
 
   async readById(ctx, next) {

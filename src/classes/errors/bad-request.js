@@ -1,4 +1,4 @@
-export default class NotFound extends Error {
+export default class BadRequest extends Error {
     
     constructor(message = 'Bad request') {
         super(message)

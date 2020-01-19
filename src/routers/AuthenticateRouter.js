@@ -1,8 +1,12 @@
 import Router from 'koa-router'
-import AuthenticateController from '../controller/AuthenticateController'
+import Authorization from '../middleware/authentication'
 
 const router = new Router()
 
-router.post('/login',  AuthenticateController.login);
+router.post('/login', Authorization.authorizeUser);
+
+router.post('/token', Authorization.refreshAccessToken);
+
+router.post('/logout', Authorization.authenticateToken, Authorization.logout)
 
 export default router;
