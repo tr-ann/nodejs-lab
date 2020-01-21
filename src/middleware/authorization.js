@@ -4,23 +4,15 @@ import UserRepository from '../repositories/UserRepository'
 import RefreshTokenRepository from '../repositories/RefreshTokenRepository'
 import db from '../models'
 import BadRequest from '../classes/errors/bad-request';
-import InternalServerError from '../classes/errors/internal-server';
 import Unauthorized from '../classes/errors/unauthorized';
-
-const accessTokenSecret = 'catsarecute'
-const refreshTokenSecret = 'dogsaregood'
+import UserService from '../services/UserService';
 
 class Authorization {
 
   async authorizeUser(ctx, next) {
     const user = await UserRepository.get({ 
       where: { login: ctx.request.body.login },
-      attributes: [ 'id', 'login', 'password' ],
-      include: [{
-        model: db.role,
-        attributes: [ 'name' ],
-        as: 'roles'
-      }]
+      attributes: [ 'id', 'login', 'password' ]
     })
 
     if (!user) {
@@ -28,13 +20,15 @@ class Authorization {
     }
 
     if (await user.checkPassword(ctx.request.body.password)) {
+      let roles = await UserService.getUserRoles(user.id)
+
       let payload = {
-        id: user.id,
-        roles: user.roles,
+        userId: user.id,
+        roles: roles,
       }
 
-      let accessToken = jwt.sign(payload, accessTokenSecret, { expiresIn: '10m' });
-      let refreshToken = jwt.sign(payload, refreshTokenSecret, { expiresIn: '10d' });
+      let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10m' });
+      let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '10d' });
 
       await RefreshTokenRepository.create({ token: refreshToken });
 
@@ -44,8 +38,7 @@ class Authorization {
           refreshToken: refreshToken, 
           user: {
             login: user.login,
-            firstName: user.firstName,
-            lastName: user.lastName
+            roles: roles
           } 
         },
         "Successfully logged in",
@@ -63,18 +56,12 @@ class Authorization {
 
     if (token == null) return new Unauthorized();
 
-    let payload = jwt.verify(token, accessTokenSecret);
+    let payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     
     ctx.request.body.user = await UserRepository.readById(payload.id);
     await next();
 
     return ctx;
-  }
-
-  getTokenPayload(ctx) {
-    let token = ctx.headers['authorization'].split(' ')[1];
-
-    return jwt.decode(token);
   }
 
   async refreshAccessToken(ctx, next) {
@@ -84,10 +71,10 @@ class Authorization {
     let tokenFromDB = await RefreshTokenRepository.get({ where: { token: token }})
 
     try {
-      let payload = jwt.verify(tokenFromDB.token, refreshTokenSecret);
+      let payload = jwt.verify(tokenFromDB.token, process.env.REFRESH_TOKEN_SECRET);
 
-      let accessToken = jwt.sign(payload, accessTokenSecret);
-      let refreshToken = jwt.sign(payload, refreshTokenSecret);
+      let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
+      let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
 
       return ctx.body = ResponseFormat.build(
         {

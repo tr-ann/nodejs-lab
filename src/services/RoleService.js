@@ -42,6 +42,7 @@ class RoleService {
   async get(options) {
     return await RoleRepository.get(options);
   }
+  
 };
 
 export default new RoleService();

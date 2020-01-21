@@ -6,7 +6,7 @@ export default (sequelize, DataTypes) => {
 
   RefreshToken.init({
     token: {
-      type: DataTypes.STRING(300),
+      type: DataTypes.STRING(500),
       allowNull: false
     }
   }, 

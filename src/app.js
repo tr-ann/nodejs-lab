@@ -1,3 +1,5 @@
+const env = require('dotenv').config();
+
 import Koa from 'koa'
 import appInit from './loaders'
 import { connect as dbConnect } from './config/sequelize'

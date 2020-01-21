@@ -88,7 +88,7 @@ CREATE TABLE `posts_tags` (
 
 CREATE TABLE `refresh_tokens` (
 	`id`		INTEGER auto_increment PRIMARY KEY,
-	`token`	VARCHAR(300) NOT NULL UNIQUE
+	`token`	VARCHAR(500) NOT NULL UNIQUE
 );
 
 INSERT INTO `roles` (`name`) VALUES

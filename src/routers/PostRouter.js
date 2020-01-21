@@ -1,13 +1,16 @@
 import Router from 'koa-router'
 import PostController from '../controller/PostController'
 import TagController from '../controller/TagController'
+import { isPostOwner } from '../middleware/filter'
 
 const router = new Router()
 
-router.get('/posts/:id',  PostController.readById);
-router.put('/posts/:id', PostController.update, TagController.addToPost);
-router.delete('/posts/:id', PostController.destroy);
-router.get('/posts', PostController.list);
+router.put('/posts/:id/like', PostController.putLike);
+
+router.put('/posts/:id', isPostOwner, PostController.update, TagController.addToPost);
+router.delete('/posts/:id', isPostOwner, PostController.destroy);
+
+router.get('/posts/:login?', PostController.list);
 router.post('/posts', PostController.create, TagController.addToPost);
 
 export default router;

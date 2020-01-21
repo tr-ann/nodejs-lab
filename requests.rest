@@ -1,9 +1,5 @@
-GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOltdLCJpYXQiOjE1Nzk0NjI0NzEsImV4cCI6MTU3OTQ2MzA3MX0.rEIUNcIE9kv5hJrHqsQzhRniTvWme2kw0frjL_wFzD0
-
-###
-
-GET http://localhost:3000/users
+DELETE http://localhost:3000/posts/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2Mjc4NjcsImV4cCI6MTU3OTYyODQ2N30.ybTjyFdCmECwaI_W1hhi0KYT7Z3e4oQ9Wk__9dInszc
 
 ###
 
@@ -11,8 +7,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "login": "user",
-  "password": "user"
+  "login": "trann2",
+  "password": "trann2"
 }
 
 ###
@@ -21,31 +17,39 @@ POST http://localhost:3000/token
 Content-Type: application/json
 
 {
-  "refreshToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZXMiOltdLCJpYXQiOjE1Nzk0NjI0NzEsImV4cCI6MTU4MDMyNjQ3MX0.7c_jZSahXfwssY1nQeR7DTQCfB5mi_O0xO6tp2NznFk"
+  "refreshToken": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzAsImlhdCI6MTU3OTYwNDMxMn0.wgx5mBCvmXEW0sqXz3OxE6XhP4cXCCyXeGWy5-ACzEg"
 }
 
 ###
 
 POST http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywibG9naW4iOiJ1c2VyIiwicm9sZXMiOltdLCJpYXQiOjE1NzkzNzUzNDMsImV4cCI6MTU3OTM3NTk0M30.4MMDBOPbc1pGT881ABXM30euzKuEli9iZ7gAxP1_C38
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2Mjc4NjcsImV4cCI6MTU3OTYyODQ2N30.ybTjyFdCmECwaI_W1hhi0KYT7Z3e4oQ9Wk__9dInszc
+Content-Type: application/json
 
 {
-	"description": "firstPost",
-  "userId": 3,
+	"description": "trannPostV3",
 	"tags": [
-		"best",
-		"hello"
+		"trann",
+		"hello",
+    "123123123"
 	]
 }
 
 ###
 
-POST http://localhost:3000/users
+POST http://localhost:3000/registration
 Content-Type: application/json
 
 {
-  "login": "user",
-  "password": "user",
-  "firstName": "ann",
-  "lastName": "trepachko"
+  "login": "trann2",
+  "password": "trann2",
+  "confirmedPassword": "trann2",
+  "firstName": "ann2",
+  "lastName": "trepachko2"
 }
+
+###
+
+GET http://localhost:3000/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEyLCJyb2xlcyI6WyJhZG1pbiJdLCJpYXQiOjE1Nzk2MjQxODMsImV4cCI6MTU3OTYyNDc4M30.vX5AnHc-lJ9vrxvCU7PckbfpB8BkevksZ5-EhGKn-fk

@@ -11,7 +11,7 @@ async function err(ctx, next) {
     try {
         await next();
         if (ctx.response.status === httpStatus.NOT_FOUND)
-            throw new NotFound;
+            throw new NotFound();
     } catch (err) {
         debug(err);
         ctx.status = err.statusCode || err.status || httpStatus.INTERNAL_SERVER_ERROR;

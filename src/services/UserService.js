@@ -1,4 +1,5 @@
 import UserRepository from '../repositories/UserRepository'
+import RoleService from './RoleService'
 import NotFound from '../classes/errors/not-found'
 import Hash from '../classes/hash'
 
@@ -66,6 +67,21 @@ class UserService {
 
   async getAll(options) {        
     return await UserRepository.getAll(options);
+  }
+
+  async getUserRoles(userId) {
+    let user = await UserRepository.readById(userId);
+    let roles = [];
+    await user.getRoles().map((role) => {
+      roles.push(role.name);
+    });
+
+    return roles;
+  }
+
+  async getUserPosts(login) {
+    let user = await UserRepository.get({ where: { login: login }});
+    return await user.getPosts();
   }
 }
 

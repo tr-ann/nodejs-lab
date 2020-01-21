@@ -1,43 +1,43 @@
 import UserService from '../services/UserService'
 import PostService from '../services/PostService'
 
+import decodePayload from '../classes/tokenPayload'
 import ResponseFormat from '../classes/ResponseFormat'
+import getTokenPayload from '../classes/tokenPayload'
 
 class PostController {
 
   async create(ctx, next) {
-    try {
-      let user = await UserService.readById(1);/*ctx.user.id*/
-      
-      let newPost = await PostService.create({
-        userId: user.id,
-        description: ctx.request.body.description,
-        image: ctx.request.body.image
-      });
+    let tokenPayload = decodePayload(ctx.headers['authorization']);
 
-      user.addPost(newPost)
+    let user = await UserService.readById(tokenPayload.userId);
+    
+    let newPost = await PostService.create({
+      userId: user.id,
+      description: ctx.request.body.description,
+      image: ctx.request.body.image
+    });
 
-      ctx.state.post = newPost;
+    user.addPost(newPost)
 
-      ctx.body = ResponseFormat.build(
-        {}, 
-        "Post created succesfully", 
-        200, 
-        "success"
-      );
+    ctx.state.post = newPost;
+    ctx.body = ResponseFormat.build(
+      {}, 
+      "Post created succesfully", 
+      200, 
+      "success"
+    );
 
-      await next();
-
-      return ctx;
-
-    } 
-    catch (error) {
-      return ctx.body = error;
-    }
+    await next();
+    return ctx;
   }
 
   async list(ctx, next) {
-    let posts = await PostService.list();
+    let posts = [];
+    if (ctx.params.login) {
+      posts = await UserService.getUserPosts(ctx.params.login)
+    }
+    else posts = await PostService.list();
     
     ctx.status = 200;
     ctx.body = ResponseFormat.build(
@@ -51,73 +51,68 @@ class PostController {
   }
 
   async readById(ctx, next) {
-      try {
+    let post = await PostService.readById(ctx.params.id);
 
-        let post = await PostService.readById(ctx.params.id);
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      post,
+      "Post read successfully",
+      200,
+      "success"
+    );
 
-        ctx.status = 200;
-        ctx.body = ResponseFormat.build(
-          post,
-          "Post read successfully",
-          200,
-          "success"
-        );
-
-        return ctx;
-
-      } 
-      catch (error) {
-        return ctx.body = error;
-      }
+    return ctx;
   }
   
   async update(ctx, next) {
-    try {
-      await PostService.update(ctx.params.id, {
-        description: ctx.request.body.description,
-        image: ctx.request.body.image,
-      });
+    await PostService.update(ctx.params.id, {
+      description: ctx.request.body.description,
+      image: ctx.request.body.image,
+    });
 
-      ctx.state.post = await PostService.readById(ctx.params.id)
-      console.log(ctx.state.post)
+    ctx.state.post = await PostService.readById(ctx.params.id)
 
-      ctx.status = 200;
-      ctx.body = ResponseFormat.build(
-        {},
-        "",
-        200,
-        "success"
-      );
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      {},
+      "",
+      200,
+      "success"
+    );
 
-      await next();
+    await next();
 
-      return ctx;
+    return ctx;
+  }
 
-    } 
-    catch(error) {
-        return ctx.body = error;
-    }
+  async putLike(ctx, next) {
+
+    let userId = getTokenPayload(ctx.headers['authorization']).userId;
+    let post = await PostService.readById(ctx.params.id);
+
+    if (!(await post.removeLike(userId)))
+      await post.addLike(userId);
+    
+    return ctx.body = ResponseFormat.build(
+      {},
+      'Like successfully put',
+      200,
+      'success'
+    );
   }
   
-  async destroy (ctx, next) {
-    try {
+  async destroy(ctx, next) {
+    await PostService.destroy(ctx.params.id)
 
-      await PostService.destroy(ctx.params.id)
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      {},
+      "Post deleted successfully",
+      200,
+      "success"
+    )
 
-      ctx.status = 200;
-      ctx.body = ResponseFormat.build(
-        {},
-        "Post deleted successfully",
-        200,
-        "success"
-      )
-
-      return ctx;
-
-    } 
-    catch (error) {
-      return ctx.body = error;
-    }
+    return ctx;
   }
 }
 
