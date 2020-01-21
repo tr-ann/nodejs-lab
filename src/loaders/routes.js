@@ -2,7 +2,7 @@ import authenticationRouter from '../routers/AuthenticateRouter'
 import usersRouter from '../routers/UserRouter'
 import postsRouter from '../routers/PostRouter'
 import Authorization from '../middleware/authorization'
-import UserController from '../controller/UserController'
+import adminsRouter from '../routers/AdminRouter'
 
 export default (app) => {
 	app
@@ -11,6 +11,7 @@ export default (app) => {
 		.use(Authorization.authenticateToken)
 
 		.use(usersRouter.routes())
-		.use(postsRouter.routes());
+		.use(postsRouter.routes())
+		.use(adminsRouter.routes())
 }
 

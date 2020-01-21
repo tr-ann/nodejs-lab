@@ -1,10 +1,11 @@
 import Router from 'koa-router'
 import Authorization from '../middleware/authorization'
 import UserController from '../controller/UserController'
+import AdminController from '../controller/AdminController'
 
 const router = new Router()
 
-router.post('/registration', UserController.register, UserController.create, UserController.addRole)
+router.post('/registration', UserController.register, AdminController.create, AdminController.addRole)
 
 router.post('/login', Authorization.authorizeUser);
 

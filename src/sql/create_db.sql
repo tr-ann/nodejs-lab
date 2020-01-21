@@ -10,7 +10,6 @@ CREATE TABLE `users` (
 	`first_name` 	VARCHAR(100) 	NOT NULL,
 	`last_name` 	VARCHAR(100) 	NOT NULL,
 	`password` 		VARCHAR(100) 	NOT NULL,
-	`deleted_at`	TIMESTAMP			,
 
 	PRIMARY KEY (`id`)
 );
@@ -34,8 +33,8 @@ CREATE TABLE `users_roles` (
 	FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-DROP TABLE IF EXISTS `requests`;
-CREATE TABLE `requests` (
+DROP TABLE IF EXISTS `delete_requests`;
+CREATE TABLE `delete_requests` (
 	`id` 				INTEGER 	auto_increment,
 	`user_id` 	INTEGER 	NOT NULL UNIQUE,
 

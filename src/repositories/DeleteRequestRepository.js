@@ -9,7 +9,7 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of create
      */
     async create(deleteRequest) {
-        return await db.deleteRequest.create(deleteRequest)
+        return await db.delete_request.create(deleteRequest)
     }
 
     /**
@@ -19,13 +19,13 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of create
      */
     async readById(id) {        
-        return await db.deleteRequest.findByPk(id, {
+        return await db.delete_request.findByPk(id, {
             attributes: ['id', 'user_id' ],
             include: [
                 { 
                     model: db.user,
                     attributes: [ 'id', 'login', 'first_name', 'last_name' ],
-                    as: 'users'
+                    as: 'user'
                 }
             ]
         })
@@ -37,13 +37,13 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of read
      */
     async readAll() {
-        return await db.deleteRequest.findAll({
+        return await db.delete_request.findAll({
             attributes: ['id', 'user_id' ],
             include: [
                 { 
                     model: db.user,
                     attributes: [ 'id', 'login', 'first_name', 'last_name' ],
-                    as: 'users'
+                    as: 'user'
                 }
             ]
         })
@@ -57,7 +57,7 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of update
      */
     async update(id, deleteRequest) {
-        return await db.deleteRequest.update(deleteRequest, {where: { id: id }})
+        return await db.delete_request.update(deleteRequest, {where: { id: id }})
     }
 
     /**
@@ -67,7 +67,7 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of destroy
      */
     async destroy(id) {
-        return await db.deleteRequest.destroy({where: { id: id }})
+        return await db.delete_request.destroy({where: { id: id }})
     }
 
     /**
@@ -77,7 +77,7 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of create
      */
     async getAll(options) {        
-        return await db.deleteRequest.findAll(options)
+        return await db.delete_request.findAll(options)
     }
 
     /**
@@ -87,7 +87,7 @@ class DeleteRequestRepository {
      * @return {Promise} promise with result of create
      */
     async get(options) {        
-        return await db.deleteRequest.findOne(options)
+        return await db.delete_request.findOne(options)
     }
 }
 

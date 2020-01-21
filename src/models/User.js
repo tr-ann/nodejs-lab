@@ -26,13 +26,7 @@ export default (sequelize, DataTypes) => {
     },
   }, {
     sequelize,
-    timestamps: true,
-    
-    createdAt: false,
-    updatedAt: false,
-    deletedAt: 'deleted_at',
-    paranoid: true,
-    
+    timestamps: false,    
     modelName: 'user',
 
     // tableName: 'users', 

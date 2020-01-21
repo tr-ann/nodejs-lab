@@ -37,6 +37,7 @@ class Authorization {
           accessToken: accessToken, 
           refreshToken: refreshToken, 
           user: {
+            id: user.id,
             login: user.login,
             roles: roles
           } 
