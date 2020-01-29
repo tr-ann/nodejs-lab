@@ -1,5 +1,5 @@
-DELETE http://localhost:3000/posts/8
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2Mjc4NjcsImV4cCI6MTU3OTYyODQ2N30.ybTjyFdCmECwaI_W1hhi0KYT7Z3e4oQ9Wk__9dInszc
+GET http://localhost:3000/admin/users
+//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2NDMyOTAsImV4cCI6MTU3OTY0Mzg5MH0.pJftdUHFlwdZs2IS2KPsMe6Mhp99z6Dk9U5l0zLiwa8
 
 ###
 
@@ -7,8 +7,8 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-  "login": "test4",
-  "password": "test4"
+  "login": "trann",
+  "password": "trann"
 }
 
 ###
@@ -23,11 +23,11 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2MzU4OTAsImV4cCI6MTU3OTYzNjQ5MH0.C2CuDPh3Xqzjnoc2cLA8zNFy3xxjLgCjwS_YTL7_D2k
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1ODAzMzUwODV9.1t4BrzwK_swsHvVThhM7MYkOlsZPBNTouSCmyvGfmmE
 Content-Type: application/json
 
 {
-	"description": "testPostV3",
+	"description": "test2",
 	"tags": [
 		"test",
 		"hello",
@@ -51,11 +51,11 @@ POST http://localhost:3000/registration
 Content-Type: application/json
 
 {
-  "login": "trann",
-  "password": "trann",
-  "confirmedPassword": "trann",
-  "firstName": "trann",
-  "lastName": "trann"
+  "login": "trann2",
+  "password": "trann2",
+  "confirmedPassword": "trann2",
+  "firstName": "trann2",
+  "lastName": "trann2"
 }
 
 ###

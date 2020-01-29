@@ -9,7 +9,15 @@ import BadRequest from '../classes/errors/bad-request';
 class AdminController {
 
   async usersList(ctx, next) {
-    let users = await UserService.list();
+    let page = ctx.request.query.page || 1;
+    let offset = (page - 1) * +process.env.PAGE_SIZE;
+
+    let options = {};
+    if (ctx.request.query.role) {
+      options.name = ctx.request.query.role;
+    }
+
+    let users = await UserService.list(+process.env.PAGE_SIZE, offset, options);
     
     return ctx.body = ResponseFormat.build(
       users, 

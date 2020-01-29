@@ -1,4 +1,5 @@
 import db from '../models'
+import { Op } from 'sequelize'
 
 class UserRepository {
 
@@ -48,16 +49,19 @@ class UserRepository {
      * 
      * @return {Promise} promise with result of read
      */
-    async readAll() {
+    async readAll(limit, offset, options) {
         return await db.user.findAll({
             attributes: ['id', 'login', 'first_name', 'last_name' ],
             include: [
                 {
                     model: db.role,
                     attributes: [ 'id', 'name' ],
-                    as: 'roles'
+                    as: 'roles',
                 }
-            ]
+            ],
+            limit: limit,
+            offset: offset,
+            where: options
         })
     }
 

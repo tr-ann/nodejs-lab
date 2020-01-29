@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import Authorization from '../middleware/authorization'
-import UserController from '../controller/UserController'
-import AdminController from '../controller/AdminController'
+import UserController from '../controllers/UserController'
+import AdminController from '../controllers/AdminController'
 
 const router = new Router()
 

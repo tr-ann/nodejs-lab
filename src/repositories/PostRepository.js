@@ -1,4 +1,7 @@
 import db from '../models'
+import { sequelize } from '../config/sequelize'
+import Sequelize from 'sequelize'
+import { Op } from 'sequelize'
 
 class PostRepository {
 
@@ -41,19 +44,85 @@ class PostRepository {
       })
   }
 
-  /**
-   * Read all the entities from a database
-   * 
-   * @return {Promise} promise with result of read
-   */
-  async readAll() {
+  /*async readAll(limit, offset, options) {
+    let _options = {
+      type: Sequelize.QueryTypes.SELECT,
+      replacements: [ offset, limit, Sequelize.literal(options).val ],
+      model: db.post,
+      include: [
+        {
+          model: db.user,
+          as: 'user',
+        },
+        {
+          model: db.tag,
+          as: 'tags'
+        },
+        {
+          model: db.user,
+          as: 'likes',
+        },
+      ],
+      hasJoin: true
+    };
+
+    db.post._validateIncludedElements(_options);
+
+    return await sequelize.query(
+      'SELECT ' +
+      '`post`.*, ' +
+      '`user`.`id` AS `user.id`, ' +
+      '`user`.`login` AS `user.login`, ' +
+      '`user`.`first_name` AS `user.first_name`, ' +
+      '`user`.`last_name` AS `user.last_name`, ' +
+      '`tags`.`id` AS `tags.id`, ' +
+      '`tags`.`name` AS `tags.name`, ' +
+      '`tags->post_tag`.`post_id` AS `tags.post_tag.postId`, ' +
+      '`tags->post_tag`.`tag_id` AS `tags.post_tag.tagId`, ' +
+      '`likes`.`id` AS `likes.id`, ' +
+      '`likes`.`last_name` AS `likes.last_name`, ' +
+      '`likes`.`first_name` AS `likes.first_name`, ' +
+      '`likes->like`.`post_id` AS `likes.like.postId`, ' +
+      '`likes->like`.`user_id` AS `likes.like.userId` ' +
+      'FROM ( ' +
+        'SELECT ' + 
+          '`post`.`id`, ' +
+          '`post`.`description`, ' +
+          '`post`.`image`, ' +
+          '`post`.`owner_id` ' +
+        'FROM `posts` AS `post` ' +
+      ') AS `post` ' +
+      'LEFT OUTER JOIN `users` AS `user` ' +
+      'ON `post`.`owner_id` = `user`.`id` ' +
+      'LEFT OUTER JOIN ( ' +
+        '`posts_tags` AS `tags->post_tag` ' +
+        'INNER JOIN `tags` AS `tags` ' +
+        'ON `tags`.`id` = `tags->post_tag`.`tag_id`) ' +
+      'ON `post`.`id` = `tags->post_tag`.`post_id` ' +
+      'LEFT OUTER JOIN ( ' +
+        '`likes` AS `likes->like` ' +
+        'INNER JOIN `users` AS `likes` ' +
+        'ON `likes`.`id` = `likes->like`.`user_id` ' +
+      ') ' +
+      'ON `post`.`id` = `likes->like`.`post_id` ' +
+      'JOIN ( ' +
+        'SELECT `id` FROM `posts` ORDER BY `id` LIMIT ?, ? ' +
+      ') as l ' +
+      'ON l.`id` = `post`.`id` ' +
+      'WHERE ? ',
+      _options
+    )
+  }*/
+
+  async readAll(limit, offset, options) {
     return await db.post.findAll({
-      attributes: [ 'id', 'description', 'image' ],
+      attributes: [ 'id', 'description', 'image', 'userId' ],
       include: [
         { 
           model: db.user,
           attributes: [ 'id', 'login', 'first_name', 'last_name' ],
-          as: 'user'
+          as: 'user',
+          where: options.user
         },
         {
           model: db.tag,
@@ -62,12 +131,15 @@ class PostRepository {
         },
         {
           model: db.user,
-          attributes: [ 'id', 'last_name', 'first_name' ],
+          attributes: [ 'id', 'login', 'first_name', 'last_name' ],
           as: 'likes'
         }
-      ]
+      ],
+      limit: limit,
+      offset: offset,
+      where: options.post
     })
-  }
+  }    
 
   /**
    * Update an entity from a database

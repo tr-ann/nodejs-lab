@@ -1,6 +1,6 @@
 import Router from 'koa-router'
-import PostController from '../controller/PostController'
-import TagController from '../controller/TagController'
+import PostController from '../controllers/PostController'
+import TagController from '../controllers/TagController'
 import { isPostOwner } from '../middleware/filter'
 
 const router = new Router()

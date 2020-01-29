@@ -3,8 +3,8 @@ import NotFound from '../classes/errors/not-found'
 
 class PostService {
 
-  async list() {
-    return await PostRepository.readAll();
+  async list(limit, offset, options) {
+    return await PostRepository.readAll(limit, offset, options);
   }
 
   async create(post) {

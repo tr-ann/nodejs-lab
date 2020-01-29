@@ -8,7 +8,7 @@ export default (app) => {
 	app
 		.use(authenticationRouter.routes())
 
-		.use(Authorization.authenticateToken)
+		//.use(Authorization.authenticateToken)
 
 		.use(usersRouter.routes())
 		.use(postsRouter.routes())

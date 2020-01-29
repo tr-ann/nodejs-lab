@@ -33,11 +33,15 @@ class PostController {
   }
 
   async list(ctx, next) {
-    let posts = [];
+    let page = ctx.request.query.page || 1;
+    let offset = (page - 1) * +process.env.PAGE_SIZE;
+    
+    let options = {};
     if (ctx.params.login) {
-      posts = await UserService.getUserPosts(ctx.params.login)
+      options.user = { login: ctx.params.login };
     }
-    else posts = await PostService.list();
+
+    let posts = await PostService.list(+process.env.PAGE_SIZE, offset, options);
     
     ctx.status = 200;
     ctx.body = ResponseFormat.build(

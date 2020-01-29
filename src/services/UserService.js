@@ -16,8 +16,8 @@ class UserService {
     return newUser;
   }
 
-  async list() {
-    return await UserRepository.readAll();
+  async list(limit, offset, options) {
+    return await UserRepository.readAll(limit, offset, options);
   }
 
   async readById(id) {
@@ -79,9 +79,11 @@ class UserService {
     return roles;
   }
 
-  async getUserPosts(login) {
+  async getUserPosts(login, options) {
+
+
     let user = await UserRepository.get({ where: { login: login }});
-    return await user.getPosts();
+    return await user.getPosts(options);
   }
 }
 

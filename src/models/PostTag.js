@@ -28,6 +28,22 @@ export default (sequelize, DataTypes) => {
 			plural: 'postsTags',
 		}
 	});
+
+	PostTag.associate = function (models) { 
+		PostTag.belongsTo(models.tag, {
+				onDelete: 'cascade',
+				onUpdate: 'cascade',
+				foreignKey: 'tagId',
+				as: 'posts'
+		});
+
+		PostTag.belongsTo(models.post, {
+      onDelete: 'cascade',
+      onUpdate: 'cascade',
+			foreignKey: 'postId',
+			as: 'tags'
+    });
+}
 	
 	return PostTag;
 }

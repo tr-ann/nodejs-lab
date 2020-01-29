@@ -1,11 +1,11 @@
 import Router from 'koa-router'
-import AdminController from '../controller/AdminController'
+import AdminController from '../controllers/AdminController'
 
 import { isAdmin } from '../middleware/filter'
 
 const router = new Router();
 
-router.use(isAdmin);
+//router.use(isAdmin);
 
 router.put('/admin/users/:id/give', AdminController.addRole); // give
 router.put('/admin/users/:id/pickup', AdminController.deleteRole); // pick up role
