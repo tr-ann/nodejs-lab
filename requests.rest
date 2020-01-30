@@ -1,5 +1,5 @@
 GET http://localhost:3000/admin/users
-//Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2NDMyOTAsImV4cCI6MTU3OTY0Mzg5MH0.pJftdUHFlwdZs2IS2KPsMe6Mhp99z6Dk9U5l0zLiwa8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
 
 ###
 
@@ -23,7 +23,7 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1ODAzMzUwODV9.1t4BrzwK_swsHvVThhM7MYkOlsZPBNTouSCmyvGfmmE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
 Content-Type: application/json
 
 {
@@ -37,12 +37,12 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/posts/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2MzU4OTAsImV4cCI6MTU3OTYzNjQ5MH0.C2CuDPh3Xqzjnoc2cLA8zNFy3xxjLgCjwS_YTL7_D2k
+PUT http://localhost:3000/posts/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
 Content-Type: application/json
 
 {
-  "description": "UPDATED testPostV3"
+  "description": "UPDATED UPDATED UPDATED UPDATED UPDATED"
 }
 
 ###
@@ -60,9 +60,8 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/admin/delete-requests
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2MzYyNTMsImV4cCI6MTU3OTYzNjg1M30.I6n5lElS0q2xH0ZFDt3e7SVlWnYB9jWGTuLO0lanNoM
+GET http://localhost:3000/posts?page=3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
 
 ###
 
