@@ -23,7 +23,7 @@ class PostRepository {
    */
   async readById(id) {        
       return await db.post.findByPk(id, {
-          attributes: ['id', 'description', 'image' ],
+          attributes: ['id', 'description', 'image', 'createdAt', 'updatedAt' ],
           include: [
               { 
                   model: db.user,
@@ -116,7 +116,7 @@ class PostRepository {
 
   async readAll(limit, offset, options) {
     return await db.post.findAll({
-      attributes: [ 'id', 'description', 'image', 'userId' ],
+      attributes: [ 'id', 'description', 'image', 'userId', 'createdAt', 'updatedAt' ],
       include: [
         { 
           model: db.user,

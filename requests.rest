@@ -1,5 +1,5 @@
-GET http://localhost:3000/admin/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
+GET http://localhost:3000/posts
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDQyMDI4MCwiZXhwIjoxNTgwNDIwODgwfQ.UYNN94fPfeLA2C9tBU8MKkNzUSH5E9ObWWEGggMXDrs
 
 ###
 
@@ -37,8 +37,8 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/posts/8
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
+PUT http://localhost:3000/posts/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDQyMDI4MCwiZXhwIjoxNTgwNDIwODgwfQ.UYNN94fPfeLA2C9tBU8MKkNzUSH5E9ObWWEGggMXDrs
 Content-Type: application/json
 
 {

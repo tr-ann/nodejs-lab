@@ -4,6 +4,7 @@ import PostService from '../services/PostService'
 import decodePayload from '../classes/tokenPayload'
 import ResponseFormat from '../classes/ResponseFormat'
 import getTokenPayload from '../classes/tokenPayload'
+import BadRequest from '../classes/errors/bad-request'
 
 class PostController {
 
@@ -69,10 +70,16 @@ class PostController {
   }
   
   async update(ctx, next) {
-    await PostService.update(ctx.params.id, {
-      description: ctx.request.body.description,
-      image: ctx.request.body.image,
-    });
+    let oldPost = await PostService.readById(ctx.params.id);
+
+    if (oldPost.updatedAt - 1000*60*60 <= oldPost.createdAt) {
+      await PostService.update(ctx.params.id, {
+        description: ctx.request.body.description,
+        image: ctx.request.body.image,
+        updatedAt: Date.now()
+      });
+    }
+    else throw new BadRequest();
 
     ctx.state.post = await PostService.readById(ctx.params.id)
 
