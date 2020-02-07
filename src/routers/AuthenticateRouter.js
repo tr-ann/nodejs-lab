@@ -1,16 +1,17 @@
 import Router from 'koa-router'
-import Authorization from '../middleware/authorization'
+import LoginController from '../controllers/LoginController'
+import LogoutController from '../controllers/LogoutController'
 import UserController from '../controllers/UserController'
-import AdminController from '../controllers/AdminController'
+import isAuthenticated from '../middleware/authentication'
 
 const router = new Router()
 
-router.post('/registration', UserController.register, AdminController.create, AdminController.addRole)
+router.post('/registration', UserController.create)
 
-router.post('/login', Authorization.authorizeUser);
+router.post('/login', LoginController.authenticateWithJWT);
 
-router.post('/token', Authorization.refreshAccessToken);
+router.post('/token', LoginController.refreshJWT);
 
-router.post('/logout', Authorization.authenticateToken, Authorization.logout)
+router.post('/logout', isAuthenticated, LogoutController.logout)
 
 export default router;

@@ -8,7 +8,9 @@ class RoleService {
   }
 
   async create(role) {
-    return await RoleRepository.create(role);
+    let newRole = await RoleRepository.create(role);
+
+    return newRole.id;
   }
 
   async readById(id) {
@@ -22,7 +24,15 @@ class RoleService {
   }
 
   async update(id, role) {
-    return await RoleRepository.update(id, role);
+    let oldRole = await RoleRepository.readById(id);
+
+    if (!oldRole) {
+      throw new NotFound(`Role not found`);
+    }
+
+    await oldRole.update(role);
+
+    return oldRole;
   }
 
   async destroy(id) {
@@ -33,10 +43,6 @@ class RoleService {
     }
 
     await RoleRepository.delete(role);
-  }
-
-  async getAll(options) {
-    return await RoleRepository.getAll(options);
   }
 
   async get(options) {

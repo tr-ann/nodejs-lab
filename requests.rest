@@ -1,5 +1,10 @@
-GET http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDQyMDI4MCwiZXhwIjoxNTgwNDIwODgwfQ.UYNN94fPfeLA2C9tBU8MKkNzUSH5E9ObWWEGggMXDrs
+PUT http://localhost:3000/users/2/pickup
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEwMzE1NjksImV4cCI6MTU4MTAzMjE2OX0.IqdtJf49ubXgrrkGUK98D5CN3SJjxai9voQ_eUi0wGs
+Content-Type: application/json
+
+{
+  "role": "admin"
+}
 
 ###
 
@@ -23,7 +28,7 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEwMzAwMzMsImV4cCI6MTU4MTAzMDYzM30.AeVISZSjtb-k2CYDuMbZtJS1qaENjOkBCtyRu3-liYE
 Content-Type: application/json
 
 {
@@ -37,12 +42,15 @@ Content-Type: application/json
 
 ###
 
-PUT http://localhost:3000/posts/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDQyMDI4MCwiZXhwIjoxNTgwNDIwODgwfQ.UYNN94fPfeLA2C9tBU8MKkNzUSH5E9ObWWEGggMXDrs
+PUT http://localhost:3000/posts/1/like
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImxvZ2luIjoidHJhbm4yIiwiaWF0IjoxNTgxMDMyNzA0LCJleHAiOjE1ODEwMzMzMDR9.K_Utj-NrmPq5P0WT21DxmCCL9A8bvlLyw-xnD5RPkqw
 Content-Type: application/json
 
 {
-  "description": "UPDATED UPDATED UPDATED UPDATED UPDATED"
+  "description": "3UPDATED UPDATED UPDATED UPDATED UPDATED",
+  "tags": [
+    "HELLO___"
+  ]
 }
 
 ###
@@ -51,7 +59,7 @@ POST http://localhost:3000/registration
 Content-Type: application/json
 
 {
-  "login": "trann2",
+  "login": "trann11",
   "password": "trann2",
   "confirmedPassword": "trann2",
   "firstName": "trann2",
@@ -60,18 +68,18 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/posts?page=3
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU4MDM5ODg0NSwiZXhwIjoxNTgwMzk5NDQ1fQ.TCZf94so5OFs2vItEYwxtehLBVtAOxhgHB6yzN_D7o4
+GET http://localhost:3000/posts?page=1&amount=1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEwMzI0ODAsImV4cCI6MTU4MTAzMzA4MH0.o6WYYUseG_WLyrgLSqEcJ7jAn80f1VyWk6j2GfSNkvw
 
 ###
 
-DELETE http://localhost:3000/users/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciJdLCJpYXQiOjE1Nzk2MzYyNTMsImV4cCI6MTU3OTYzNjg1M30.I6n5lElS0q2xH0ZFDt3e7SVlWnYB9jWGTuLO0lanNoM
+DELETE http://localhost:3000/requests/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEwMzI5NDIsImV4cCI6MTU4MTAzMzU0Mn0._1DGGZjRci2mNRjHclIrT2y5-Jqc3nGMviYai7f9TFY
 
 ###
 
-PUT http://localhost:3000/admin/users/5/give
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU3OTYzNDUzOCwiZXhwIjoxNTc5NjM1MTM4fQ.mfKSt7QGw1MEfQmeFpkTmmkHR0nSgwvUc_Yf_bp7ns4
+DELETE http://localhost:3000/users/8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjgsImxvZ2luIjoidHJhbm4xMSIsImlhdCI6MTU4MTAzMjg4MSwiZXhwIjoxNTgxMDMzNDgxfQ.arHHxaz4PNLPhdNDNQorjQwZ3g3Xxix6udgLegzNgRI
 Content-Type: application/json
 
 {
@@ -90,5 +98,5 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:3000/admin/delete-requests/1
+DELETE http://localhost:3000/admin/delete-requests/4
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGVzIjpbImF1dGhvcml6ZWQgdXNlciIsImFkbWluIl0sImlhdCI6MTU3OTYzNTQxOCwiZXhwIjoxNTc5NjM2MDE4fQ.H6Ha9y1gPh3KHY4UGxDSfzX_ZrBCMLxIISJbu78K6q8

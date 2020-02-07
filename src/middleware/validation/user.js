@@ -1,6 +1,6 @@
 import Joi from 'joi';
 
-let v = {
+let validationSchemes = {
 
   Registration: Joi.object({
     body: {
@@ -80,4 +80,4 @@ let v = {
 
 };
 
-export default v;
+export default validationSchemes;

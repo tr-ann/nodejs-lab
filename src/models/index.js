@@ -1,4 +1,4 @@
-import { sequelize } from '../config/sequelize'
+import { sequelize } from '../sequelize'
 import fs from 'fs'
 import path from 'path'
 const basename  = path.basename(__filename)

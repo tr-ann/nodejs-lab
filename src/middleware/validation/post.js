@@ -1,8 +1,8 @@
 import Joi from 'joi';
 
-let v = {
+let validationSchemes = {
 
-  CreatePost: {
+  CreatePost: Joi.object({
     body: {
       description: Joi
         .string()
@@ -19,8 +19,8 @@ let v = {
             .required()
         )
     }
-  }
+  })
 
 }
 
-export default v;
+export default validationSchemes;

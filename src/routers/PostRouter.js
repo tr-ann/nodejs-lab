@@ -1,7 +1,7 @@
 import Router from 'koa-router'
 import PostController from '../controllers/PostController'
 import TagController from '../controllers/TagController'
-import { isPostOwner } from '../middleware/filter'
+import Filter from '../middleware/filter'
 import validate from 'koa2-validation'
 import vPostSchemes from '../middleware/validation/post'
 import vUserSchemes from '../middleware/validation/user'
@@ -15,13 +15,13 @@ router.put('/posts/:id/like',
 router.put('/posts/:id',
             validate(vUserSchemes.CheckId),
             validate(vPostSchemes.CreatePost),
-            isPostOwner,
+            Filter.isPostOwner,
             PostController.update,
             TagController.addToPost);
 
 router.delete('/posts/:id',
               validate(vUserSchemes.CheckId),
-              isPostOwner,
+              Filter.isPostOwner,
               PostController.destroy);
 
 router.get('/posts/:login?',

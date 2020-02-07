@@ -1,33 +1,43 @@
 import UserService from '../services/UserService'
 import ResponseFormat from '../classes/ResponseFormat'
-import RefreshTokenRepository from '../repositories/RefreshTokenRepository'
-import jwt from 'jsonwebtoken'
 import BadRequest from '../classes/errors/bad-request'
-import DeleteRequestService from '../services/DeleteRequestService'
-import getTokenPayload from '../classes/tokenPayload'
+import { getTokenPayload } from '../classes/tokens'
+import getPagination from '../classes/pagination'
 
 class UserController {
 
-  async register(ctx, next) {
-    if (ctx.request.body.password === ctx.request.body.confirmedPassword) {
-      await next();
-    }
-    else throw new BadRequest('password not confirmed');
+  async create(ctx, next) {
+    let userId = await UserService.create(ctx.request.body);
 
-    let payload = {
-      userId: ctx.body.data.id,
-      roles: ctx.state.roles
-    }
-
-    let accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-    let refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET);
-
-    ctx.body.data['accessToken'] = accessToken;
-    ctx.body.data['refreshToken'] = refreshToken;
-
-    await RefreshTokenRepository.create({ token: refreshToken });
+    ctx.state.userId = userId;
+    
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      `user id: ${userId}`, 
+      "User created successfully", 
+      201, 
+      "success"
+    );
 
     return ctx;
+  }
+
+  async list(ctx, next) {
+    let pagination = getPagination(ctx.request.query);
+
+    let options = {};
+    if (ctx.request.query.role) {
+      options.name = ctx.request.query.role;
+    }
+
+    let users = await UserService.list(pagination, options);
+    
+    return ctx.body = ResponseFormat.build(
+      users, 
+      "Users read successfully", 
+      200, 
+      "success"
+    );
   }
 
   async readById(ctx, next) {
@@ -44,10 +54,7 @@ class UserController {
   }
   
   async update(ctx, next) {
-    let user = await UserService.update(ctx.params.id, {
-      lastName: ctx.request.body.lastName,
-      firstName: ctx.request.body.firstName,
-    });
+    let user = await UserService.update(ctx.params.id, ctx.request.body);
 
     ctx.body = ResponseFormat.build(
       user,
@@ -59,22 +66,50 @@ class UserController {
     return ctx;
   }
 
-  async sendDeleteRequest(ctx, next) {
-    let payload = getTokenPayload(ctx.headers['authorization']);
-
-    console.log(payload);
-    console.log(ctx.params);
-
-    if (payload.userId !== +ctx.params.id) throw new BadRequest();
-
-    await DeleteRequestService.create({ userId: payload.userId });
-
-    return ctx.body = ResponseFormat.build(
+  async addRole(ctx, next) {
+    await UserService.addRole(ctx.params.id, ctx.request.body.role)
+    
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
       {},
-      'Delete request created successfully',
-      201,
+      'role added successfully',
+      200,
       'success'
-    )
+    );
+
+    return ctx;
+  }
+  
+  async deleteRole(ctx, next) {
+    if (getTokenPayload(ctx.headers['authorization']).userId == ctx.params.id)
+      return new BadRequest();
+
+    await UserService.removeRole(ctx.params.id, ctx.request.body.role);
+
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      {},
+      'role deleted successfully',
+      200,
+      'success'
+    );
+
+    return ctx;
+  }
+
+  async destroy(ctx, next) {
+    
+    await UserService.destroy(ctx.params.id);
+
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
+      {},
+      "User deleted successfully",
+      200,
+      "success"
+    );
+
+    return ctx;
   }
 }
 

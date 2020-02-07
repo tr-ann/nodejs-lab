@@ -5,22 +5,10 @@ import ResponseFormat from '../classes/ResponseFormat'
 class TagController {
 
   async addToPost(ctx, next) {    
-    await ctx.state.post.setTags([]);
 
-    if (ctx.request.body.tags) {
-
-      for (let tagName of ctx.request.body.tags) {
-        let tag = await TagService.findOrCreate({
-          where: { name: tagName }, 
-          default: { name: tagName }
-        });
-        await ctx.state.post.addTag(tag[0]);
-      }
-    }
-
-    ctx.body.data = await PostService.readById(ctx.state.post.id);
-
-		return ctx;
+    await TagService.addToPost(ctx.state.postId, ctx.request.body.tags);
+    
+    return;
   }
 
   async create(ctx, next) {

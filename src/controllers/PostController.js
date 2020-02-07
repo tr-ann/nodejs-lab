@@ -1,48 +1,38 @@
-import UserService from '../services/UserService'
 import PostService from '../services/PostService'
-
-import decodePayload from '../classes/tokenPayload'
 import ResponseFormat from '../classes/ResponseFormat'
-import getTokenPayload from '../classes/tokenPayload'
-import BadRequest from '../classes/errors/bad-request'
+import { getTokenPayload } from '../classes/tokens'
+import getPagination from '../classes/pagination'
 
 class PostController {
 
   async create(ctx, next) {
-    let tokenPayload = decodePayload(ctx.headers['authorization']);
+    let tokenPayload = getTokenPayload(ctx.headers['authorization']);
 
-    let user = await UserService.readById(tokenPayload.userId);
-    
-    let newPost = await PostService.create({
-      userId: user.id,
-      description: ctx.request.body.description,
-      image: ctx.request.body.image
-    });
+    let postId = await PostService.create(tokenPayload, ctx.request.body);
 
-    user.addPost(newPost)
+    ctx.state.postId = postId;
 
-    ctx.state.post = newPost;
+    await next();
+
     ctx.body = ResponseFormat.build(
-      {}, 
-      "Post created succesfully", 
+      `post id: ${postId}`, 
+      "Post created successfully", 
       200, 
       "success"
     );
-
-    await next();
+    
     return ctx;
   }
 
   async list(ctx, next) {
-    let page = ctx.request.query.page || 1;
-    let offset = (page - 1) * +process.env.PAGE_SIZE;
+    let pagination = getPagination(ctx.request.query);
     
     let options = {};
     if (ctx.params.login) {
       options.user = { login: ctx.params.login };
     }
 
-    let posts = await PostService.list(+process.env.PAGE_SIZE, offset, options);
+    let posts = await PostService.list(pagination, options);
     
     ctx.status = 200;
     ctx.body = ResponseFormat.build(
@@ -70,28 +60,19 @@ class PostController {
   }
   
   async update(ctx, next) {
-    let oldPost = await PostService.readById(ctx.params.id);
+    await PostService.update(ctx.params.id, ctx.request.body);
 
-    if (oldPost.updatedAt - 1000*60*60 <= oldPost.createdAt) {
-      await PostService.update(ctx.params.id, {
-        description: ctx.request.body.description,
-        image: ctx.request.body.image,
-        updatedAt: Date.now()
-      });
-    }
-    else throw new BadRequest();
+    ctx.state.postId = ctx.params.id;
 
-    ctx.state.post = await PostService.readById(ctx.params.id)
+    await next();
 
     ctx.status = 200;
     ctx.body = ResponseFormat.build(
-      {},
-      "",
+      (await PostService.readById(ctx.state.postId)),
+      "post updated successfully",
       200,
       "success"
     );
-
-    await next();
 
     return ctx;
   }
@@ -99,17 +80,18 @@ class PostController {
   async putLike(ctx, next) {
 
     let userId = getTokenPayload(ctx.headers['authorization']).userId;
-    let post = await PostService.readById(ctx.params.id);
-
-    if (!(await post.removeLike(userId)))
-      await post.addLike(userId);
     
-    return ctx.body = ResponseFormat.build(
+    await PostService.putLike(userId, ctx.params.id);
+    
+    ctx.status = 200;
+    ctx.body = ResponseFormat.build(
       {},
-      'Like successfully put',
+      'Like put successfully',
       200,
       'success'
     );
+
+    return ctx;
   }
   
   async destroy(ctx, next) {

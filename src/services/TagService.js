@@ -1,5 +1,6 @@
 import TagRepository from '../repositories/TagRepository'
 import NotFound from '../classes/errors/not-found'
+import PostService from './PostService';
 
 class TagService {
 
@@ -7,8 +8,28 @@ class TagService {
     return await TagRepository.readAll();
   }
 
+  async addToPost(postId, tags) {
+    let post = await PostService.readById(postId);
+
+    await post.setTags([]);
+
+    if (tags) {
+      for (let tagName of tags) {
+        let tag = await TagRepository.findOrCreate({
+          where: { name: tagName }, 
+          default: { name: tagName }
+        });
+        await post.addTag(tag[0]);
+      }
+    }
+
+    return;
+  }
+
   async create(tag) {
-    return await TagRepository.create(tag);
+    let newTag = await TagRepository.create(tag);
+
+    return newTag.id;
   }
 
   async readById(id) {
@@ -21,12 +42,16 @@ class TagService {
     return tag;
   }
 
-  async findOrCreate(options) {
-    return await TagRepository.findOrCreate(options);
-  }
-
   async update(id, tag) {
-    return await TagRepository.update(id, tag);
+    let oldTag = await TagRepository.readById(id);
+
+    if (!oldTag) {
+      throw new NotFound(`Tag not found`);
+    }
+
+    await oldTag.update(tag);
+
+    return oldTag;
   }
 
   async destroy(id) {
@@ -39,13 +64,10 @@ class TagService {
     await TagRepository.delete(tag);
   }
 
-  async getAll(options) {
-    return await TagRepository.getAll(options);
-  }
-
   async get(options) {
     return await TagRepository.get(options);
   }
+  
 };
 
 export default new TagService();

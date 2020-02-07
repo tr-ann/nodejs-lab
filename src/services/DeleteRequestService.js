@@ -7,8 +7,10 @@ class DeleteRequestService {
     return await DeleteRequestRepository.readAll();
   }
 
-  async create(deleteRequest) {
-    return await DeleteRequestRepository.create(deleteRequest);
+  async create(object) {
+    let delRequest = await DeleteRequestRepository.create(object);
+
+    return delRequest.id;
   }
 
   async readById(id) {
@@ -21,8 +23,16 @@ class DeleteRequestService {
     return deleteRequest;
   }
 
-  async update(id, deleteRequest) {
-    return await DeleteRequestRepository.update(id, deleteRequest);
+  async update(id, object) {
+    let deleteRequest = await DeleteRequestRepository.readById(id);
+
+    if (!deleteRequest) {
+      throw new NotFound(`DeleteRequest not found`);
+    }
+    
+    await deleteRequest.update(object);
+
+    return deleteRequest;
   }
 
   async destroy(id) {
@@ -32,16 +42,13 @@ class DeleteRequestService {
       throw new NotFound(`DeleteRequest not found`);
     }
 
-    await DeleteRequestRepository.delete(deleteRequest);
-  }
-
-  async getAll(options) {
-    return await DeleteRequestRepository.getAll(options);
+    return await DeleteRequestRepository.delete(deleteRequest);
   }
 
   async get(options) {
     return await DeleteRequestRepository.get(options);
   }
+
 };
 
 export default new DeleteRequestService();
