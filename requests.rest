@@ -59,11 +59,11 @@ POST http://localhost:3000/registration
 Content-Type: application/json
 
 {
-  "login": "trann11",
-  "password": "trann2",
-  "confirmedPassword": "trann2",
-  "firstName": "trann2",
-  "lastName": "trann2"
+  "login": "trann",
+  "password": "trann",
+  "confirmedPassword": "trann",
+  "firstName": "trann",
+  "lastName": "trann"
 }
 
 ###

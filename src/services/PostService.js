@@ -56,9 +56,9 @@ class PostService {
   async putLike(userId, postId) {
     let post = await this.readById(postId);
 
-    let like = (await post.getLikes({ where: { id: userId }}))[0] /* ???????????????????????? */
+    let like = (await post.getLikes({ where: { id: userId }}))[0];
     if (like) {
-      await post.removeLike(userId)
+      await post.removeLike(userId);
     }
     else await post.addLike(userId);
     

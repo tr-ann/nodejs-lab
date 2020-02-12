@@ -14,7 +14,7 @@ class UserService {
       throw new BadRequest('login must be unique');
     }
     
-    if (!this.isConfirmedPassword(reqBody)) {
+    if (!this.isConfirmedPassword(reqBody.password, reqBody.confirmedPassword)) {
       throw new BadRequest('password not confirmed');
     }
 

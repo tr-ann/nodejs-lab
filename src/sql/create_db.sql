@@ -14,6 +14,8 @@ CREATE TABLE `users` (
 	PRIMARY KEY (`id`)
 );
 
+CREATE INDEX IDX_user_name ON `users`(`first_name`, `last_name`);
+
 DROP TABLE IF EXISTS `roles`;
 CREATE TABLE `roles` (
 	`id` 			INTEGER 			auto_increment,
