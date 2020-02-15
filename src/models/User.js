@@ -8,7 +8,10 @@ export default (sequelize, DataTypes) => {
   User.init({
     login: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isEmail: true
+      }
     },
     firstName: {
       type: DataTypes.STRING(150),

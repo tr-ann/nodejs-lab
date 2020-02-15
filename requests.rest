@@ -1,10 +1,6 @@
-PUT http://localhost:3000/users/2/pickup
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEwMzE1NjksImV4cCI6MTU4MTAzMjE2OX0.IqdtJf49ubXgrrkGUK98D5CN3SJjxai9voQ_eUi0wGs
-Content-Type: application/json
+GET http://localhost:3000/posts?page=2
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODE3NjMwMjEsImV4cCI6MTU4MTc2MzYyMX0.IG4Ast6sm2-ZNkt9l0d4nehYO706ECsBWFi_Uc3BSqI
 
-{
-  "role": "admin"
-}
 
 ###
 
@@ -28,13 +24,13 @@ Content-Type: application/json
 ###
 
 POST http://localhost:3000/posts
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEwMzAwMzMsImV4cCI6MTU4MTAzMDYzM30.AeVISZSjtb-k2CYDuMbZtJS1qaENjOkBCtyRu3-liYE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODEzNTExMzYsImV4cCI6MTU4MTM1MTczNn0.dI4d04MAIffJxTa8IzDXFCzMzKcRZdLJqtUxYj4VysI
 Content-Type: application/json
 
 {
-	"description": "test2",
+	"description": "test7",
 	"tags": [
-		"test",
+		"test7",
 		"hello",
     "123123123"
 	]
@@ -59,11 +55,11 @@ POST http://localhost:3000/registration
 Content-Type: application/json
 
 {
-  "login": "trann",
-  "password": "trann",
-  "confirmedPassword": "trann",
-  "firstName": "trann",
-  "lastName": "trann"
+  "login": "trann8@gmail.com",
+  "password": "trann5@gmail.com",
+  "confirmedPassword": "trann4@gmail.com",
+  "firstName": "trann4",
+  "lastName": "trann4"
 }
 
 ###

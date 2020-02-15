@@ -3,10 +3,12 @@ import LoginController from '../controllers/LoginController'
 import LogoutController from '../controllers/LogoutController'
 import UserController from '../controllers/UserController'
 import isAuthenticated from '../middleware/authentication'
+import validate from 'koa2-validation'
+import vSchemes from '../middleware/validation/user'
 
 const router = new Router()
 
-router.post('/registration', UserController.create)
+router.post('/registration', validate(vSchemes.Registration), UserController.create)
 
 router.post('/login', LoginController.authenticateWithJWT);
 

@@ -36,6 +36,8 @@ router.get('/users', UserController.list);
 
 router.get('/requests', DeleteRequestController.list);
 
-router.delete('/requests/:id', UserController.destroy)
+router.delete('/requests/:id',
+              validate(vSchemes.CheckId),
+              UserController.destroy)
 
 export default router;

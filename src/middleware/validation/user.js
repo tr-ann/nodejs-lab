@@ -6,8 +6,9 @@ let validationSchemes = {
     body: {
       login: Joi
         .string()
-        .min(6)
+        .min(11)
         .max(100)
+        .email()
         .required(),
       firstName: Joi
         .string()
@@ -23,10 +24,13 @@ let validationSchemes = {
         .max(100)
         .required(),
       confirmedPassword: Joi
-        .ref('password')
+        .string()
+        .min(8)
+        .max(100)
+        .valid(Joi.ref('password'))
+        .required()
     }
-  })
-  .with('password', 'confirmedPassword'),
+  }),
 
   UpdateUser: {
     params: {
@@ -37,8 +41,9 @@ let validationSchemes = {
     body: {
       login: Joi
         .string()
-        .min(6)
+        .min(16)
         .max(100)
+        .email()
         .required(),
       firstName: Joi
         .string()
@@ -50,16 +55,6 @@ let validationSchemes = {
         .required()
     }
   },
-
-  GetUsersList: Joi.object({
-    query: {
-      page: Joi
-        .number(),
-      role: Joi
-        .string()
-        .max(100)
-    }
-  }),
 
   GetUserPosts: {
     params: {

@@ -76,6 +76,8 @@ CREATE TABLE `tags` (
 	PRIMARY KEY (`id`)
 );
 
+CREATE INDEX IDX_tag_name ON `tags`(`name`);
+
 DROP TABLE IF EXISTS `posts_tags`;
 CREATE TABLE `posts_tags` (
 	`id` 			INTEGER auto_increment,

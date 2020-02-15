@@ -33,13 +33,6 @@ class PostRepository {
     return await db.post.findAll({
       attributes: [ 'id', 'description', 'image', 'userId', 'createdAt', 'updatedAt' ],
       include: [
-        {
-          model: db.post,
-          attributes: [ 'id' ],
-          as: 'posts',
-          limit: pagination.limit,
-          offset: pagination.offset,
-        },
         { 
           model: db.user,
           attributes: [ 'id', 'login', 'first_name', 'last_name' ],
@@ -57,7 +50,9 @@ class PostRepository {
           as: 'likes'
         }
       ],
-      where: options.post
+      where: options.post,
+      limit: pagination.limit,
+      offset: pagination.offset,
     })
   }    
 
