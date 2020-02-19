@@ -1,5 +1,5 @@
-GET http://localhost:3000/posts?page=2
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODE3NjMwMjEsImV4cCI6MTU4MTc2MzYyMX0.IG4Ast6sm2-ZNkt9l0d4nehYO706ECsBWFi_Uc3BSqI
+DELETE http://localhost:3000/requests/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImxvZ2luIjoidHJhbm4iLCJpYXQiOjE1ODIxMjUxNDIsImV4cCI6MTU4MjEyNTc0Mn0.7YdwRFlTDyCWJo3up-77JiTIkcf00Lh6slKkVAAJRec
 
 
 ###
@@ -55,9 +55,9 @@ POST http://localhost:3000/registration
 Content-Type: application/json
 
 {
-  "login": "trann8@gmail.com",
-  "password": "trann5@gmail.com",
-  "confirmedPassword": "trann4@gmail.com",
+  "login": "trann21@gmail.com",
+  "password": "trann21@gmail.com",
+  "confirmedPassword": "trann21@gmail.com",
   "firstName": "trann4",
   "lastName": "trann4"
 }

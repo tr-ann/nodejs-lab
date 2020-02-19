@@ -8,12 +8,12 @@ import vSchemes from '../middleware/validation/user'
 
 const router = new Router()
 
-router.post('/registration', validate(vSchemes.Registration), UserController.create)
+router.post('/registration', validate(vSchemes.Registration), UserController.create, UserController.addRole)
 
 router.post('/login', LoginController.authenticateWithJWT);
 
 router.post('/token', LoginController.refreshJWT);
 
-router.post('/logout', isAuthenticated, LogoutController.logout)
+router.post('/logout', isAuthenticated, LogoutController.logout);
 
 export default router;

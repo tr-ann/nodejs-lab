@@ -3,6 +3,7 @@ import ResponseFormat from '../classes/ResponseFormat'
 import BadRequest from '../classes/errors/bad-request'
 import { getTokenPayload } from '../classes/tokens'
 import getPagination from '../classes/pagination'
+import Mailer from '../mailer/Mailer'
 
 class UserController {
 
@@ -10,6 +11,8 @@ class UserController {
     let userId = await UserService.create(ctx.request.body);
 
     ctx.state.userId = userId;
+
+    await next();
     
     ctx.status = 200;
     ctx.body = ResponseFormat.build(
@@ -18,6 +21,7 @@ class UserController {
       201, 
       "success"
     );
+
 
     return ctx;
   }
@@ -67,7 +71,10 @@ class UserController {
   }
 
   async addRole(ctx, next) {
-    await UserService.addRole(ctx.params.id, ctx.request.body.role)
+    let role = ctx.request.body.role || 'authenticate user';
+    let userId = ctx.params.id || ctx.state.userId;
+
+    await UserService.addRole(userId, role);
     
     ctx.status = 200;
     ctx.body = ResponseFormat.build(
@@ -99,6 +106,12 @@ class UserController {
 
   async destroy(ctx, next) {
     
+    let userLogin = await UserService.get({
+      attributes: [ 'login' ],
+      where: { id: ctx.params.id }
+    })
+    await Mailer.sendMail(userLogin);
+
     await UserService.destroy(ctx.params.id);
 
     ctx.status = 200;

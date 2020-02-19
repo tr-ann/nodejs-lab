@@ -115,7 +115,7 @@ class UserService {
     return true;
   }
 
-  async addRole( userId, roleName) {
+  async addRole(userId, roleName) {
 
     let role = await RoleService.get({ where: { name: roleName }});
     let user = await this.readById(userId);
