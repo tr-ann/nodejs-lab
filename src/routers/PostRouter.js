@@ -1,6 +1,7 @@
 import Router from 'koa-router'
 import PostController from '../controllers/PostController'
 import TagController from '../controllers/TagController'
+import uploadSingle from '../middleware/multer'
 import Filter from '../middleware/filter'
 import validate from 'koa2-validation'
 import vPostSchemes from '../middleware/validation/post'
@@ -30,6 +31,7 @@ router.get('/posts/:login?',
 
 router.post('/posts',
             validate(vPostSchemes.CreatePost),
+            uploadSingle,
             PostController.create,
             TagController.addToPost);
 

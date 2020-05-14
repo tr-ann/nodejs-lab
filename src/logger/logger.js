@@ -1,15 +1,10 @@
 import mongoose from 'mongoose'
+import httpLog from './schemes/httpLog'
 
-const logSchema = mongoose.Schema({
-  date: Date,
-  method: String,
-  path: String,
-  error: Object
-});
 
 mongoose.connect("mongodb://localhost:27017/logs_db", { useNewUrlParser: true, useUnifiedTopology: true });
 
-const Log = mongoose.model("logs", logSchema);
+const Log = mongoose.model("logs", httpLog);
 
 export default async(ctx, next) => {
   try {

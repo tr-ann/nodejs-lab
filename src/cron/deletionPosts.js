@@ -2,7 +2,7 @@ import cron from 'node-cron'
 import PostRepository from '../repositories/PostRepository'
 
 export default () => {
-  cron.schedule('10 * * * * *', async () => {  // each 2 days -- '1 * */2 * *'
+  cron.schedule('* * * 1 * *', async () => {  // each 2 days -- '1 * */2 * *'
     let posts = await PostRepository.get({ attributes: [ 'id', 'createdAt' ]});
 
     for(let post of posts) {

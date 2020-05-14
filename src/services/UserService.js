@@ -25,7 +25,7 @@ class UserService {
       password: reqBody.password
     });
 
-    let defaultRole = await RoleService.get({ where: { name: 'authenticated user'}})
+    let defaultRole = await RoleService.get({ where: { name: 'authenticated user' }})
     newUser.addRole(defaultRole);
 
     return newUser.id;
