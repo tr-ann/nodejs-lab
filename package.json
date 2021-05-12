@@ -33,7 +33,7 @@
     "mongoose": "^5.8.11",
     "mysql2": "^2.0.0",
     "node-cron": "^2.0.3",
-    "nodemailer": "^6.4.2",
+    "nodemailer": "^6.4.16",
     "nodemon": "^2.0.1",
     "sequelize": "^5.21.2"
   },
